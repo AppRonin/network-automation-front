@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -22,9 +23,11 @@ export default function Navbar() {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuLink className="px-5 py-2 font-medium">
-                  Home
-                </NavigationMenuLink>
+                <Link to="/">
+                  <NavigationMenuLink className="px-5 py-2 font-medium">
+                    Home
+                  </NavigationMenuLink>
+                </Link>
               </NavigationMenuItem>
 
               {/* 🔽 AUTOMAÇÕES DROPDOWN */}
@@ -33,38 +36,44 @@ export default function Navbar() {
                 <NavigationMenuContent>
                   <ul className="grid w-[250px] gap-3 p-4">
                     <li>
-                      <NavigationMenuLink asChild>
-                        <a
-                          href="#"
-                          className="block p-2 rounded-md hover:bg-muted"
-                        >
-                          <div className="font-medium text-sm">
-                            Conversor GPON
-                          </div>
-                          <p className="text-muted-foreground text-xs">
-                            Converte automaticamente scripts de configuração
-                            GPON entre modelos
-                          </p>
-                        </a>
-                      </NavigationMenuLink>
+                      <Link to="/conversor-gpon">
+                        <NavigationMenuLink asChild>
+                          <a
+                            href="#"
+                            className="block p-2 rounded-md hover:bg-muted"
+                          >
+                            <div className="font-medium text-sm">
+                              Conversor GPON
+                            </div>
+                            <p className="text-muted-foreground text-xs">
+                              Converte automaticamente scripts de configuração
+                              GPON entre modelos
+                            </p>
+                          </a>
+                        </NavigationMenuLink>
+                      </Link>
                     </li>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuLink className="px-4 py-2 font-medium">
-                  Sobre
-                </NavigationMenuLink>
+                <Link to="/sobre">
+                  <NavigationMenuLink className="px-4 py-2 font-medium">
+                    Sobre
+                  </NavigationMenuLink>
+                </Link>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
 
         {/* CTA Button (Desktop) */}
-        <div className="hidden md:block">
-          <Button>Entrar</Button>
-        </div>
+        <Link to="/login">
+          <div className="hidden md:block">
+            <Button className="cursor-pointer">Entrar</Button>
+          </div>
+        </Link>
 
         {/* Mobile Menu */}
         <div className="md:hidden">
