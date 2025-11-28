@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 function Sobre() {
   return (
-    <div className="min-h-screen w-full bg-white p-6 flex justify-center">
+    <div className="min-h-[calc(100vh-69px)] w-full bg-white p-6 flex justify-center">
       <div className="max-w-2xl w-full space-y-6">
         <h1 className="text-3xl font-bold">Sobre</h1>
 
