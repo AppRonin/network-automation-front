@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -14,11 +8,13 @@ import { useAuth } from "../store/useAuth";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
   const login = useAuth((s) => s.login);
+  const error = useAuth((s) => s.error);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(username, password); // Zustand handles redirect
+    login(username, password);
   };
 
   return (
@@ -53,6 +49,13 @@ function Login() {
                 required
               />
             </div>
+
+            {/* 🔥 SHOW ERROR MESSAGE */}
+            {error && (
+              <p className="text-red-500 text-sm font-medium text-center">
+                {error}
+              </p>
+            )}
 
             <Button className="w-full mt-2" type="submit">
               Entrar

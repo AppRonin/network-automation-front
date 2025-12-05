@@ -7,28 +7,37 @@ export const useAuth = create(
     (set) => ({
       isAuthenticated: false,
       loading: true,
+      error: null,
 
       login: async (username, password) => {
-        const res = await api.post("/token/", { username, password });
+        try {
+          set({ error: null }); // limpa erros anteriores
 
-        localStorage.setItem("access", res.data.access);
-        localStorage.setItem("refresh", res.data.refresh);
+          const res = await api.post("/token/", { username, password });
 
-        set({ isAuthenticated: true });
-        window.location.href = "/";
+          localStorage.setItem("access", res.data.access);
+          localStorage.setItem("refresh", res.data.refresh);
+
+          set({ isAuthenticated: true });
+          window.location.href = "/";
+        } catch (err) {
+          console.error("Login failed:", err);
+          set({
+            error: "Usuário ou senha incorretos.",
+            isAuthenticated: false,
+          });
+        }
       },
 
       logout: () => {
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
-
         set({ isAuthenticated: false });
         window.location.href = "/login";
       },
 
       checkAuth: async () => {
         const access = localStorage.getItem("access");
-
         if (!access) {
           set({ loading: false, isAuthenticated: false });
           return;
@@ -44,8 +53,6 @@ export const useAuth = create(
         }
       },
     }),
-    {
-      name: "auth-store",
-    }
+    { name: "auth-store" }
   )
 );
