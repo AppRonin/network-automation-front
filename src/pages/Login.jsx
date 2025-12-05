@@ -9,15 +9,37 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import api from "../services/api"; // axios client
 
 function Login() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // your login logic here
-    console.log({ email, password });
+    setError("");
+
+    try {
+      const response = await api.post("/token/", {
+        username,
+        password,
+      });
+
+      // JWT tokens returned by DRF SimpleJWT
+      const { access, refresh } = response.data;
+
+      localStorage.setItem("access", access);
+      localStorage.setItem("refresh", refresh);
+
+      console.log("Logged in!");
+
+      // redirect / update UI
+      window.location.href = "/";
+    } catch (err) {
+      console.log(err);
+      setError("Email ou senha incorretos");
+    }
   };
 
   return (
@@ -31,19 +53,21 @@ function Login() {
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {error && <p className="text-red-500 text-center">{error}</p>}
+
             <div className="flex flex-col space-y-1.5">
-              <Label>Email</Label>
+              <Label>Username</Label>
               <Input
-                type="email"
+                type="input"
                 placeholder="seu.email@empresa.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
 
             <div className="flex flex-col space-y-1.5">
-              <Label>Senha</Label>
+              <Label>Password</Label>
               <Input
                 type="password"
                 placeholder="•••••••••"
