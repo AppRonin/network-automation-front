@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from "../store/useAuth"; // adjust the path to your store
 
 // 🔽 Import Accordion for mobile dropdown
 import {
@@ -20,6 +21,7 @@ import {
 
 export default function Navbar() {
   const location = useLocation();
+  const { isAuthenticated, logout } = useAuth();
 
   // 🔥 Automações stays active for any subroute (e.g. /conversor-gpon)
   const isAutomacoesActive = location.pathname.startsWith("/conversor-gpon");
@@ -98,11 +100,17 @@ export default function Navbar() {
         </div>
 
         {/* CTA Button */}
-        <NavLink to="/login">
-          <div className="hidden md:block">
-            <Button className="cursor-pointer">Entrar</Button>
-          </div>
-        </NavLink>
+        <div className="hidden md:block">
+          {isAuthenticated ? (
+            <Button variant="destructive" onClick={logout}>
+              Logout
+            </Button>
+          ) : (
+            <NavLink to="/login">
+              <Button>Entrar</Button>
+            </NavLink>
+          )}
+        </div>
 
         {/* MOBILE MENU */}
         <div className="md:hidden">
@@ -164,9 +172,19 @@ export default function Navbar() {
                 </NavLink>
 
                 {/* LOGIN */}
-                <NavLink to="/login">
-                  <Button className="mt-4 w-full">Login</Button>
-                </NavLink>
+                {isAuthenticated ? (
+                  <Button
+                    className="mt-4 w-full"
+                    variant="destructive"
+                    onClick={logout}
+                  >
+                    Logout
+                  </Button>
+                ) : (
+                  <NavLink to="/login">
+                    <Button className="mt-4 w-full">Entrar</Button>
+                  </NavLink>
+                )}
               </div>
             </SheetContent>
           </Sheet>
