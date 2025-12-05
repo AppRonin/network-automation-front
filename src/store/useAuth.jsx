@@ -9,7 +9,10 @@ export const useAuth = create(
       loading: true,
       error: null,
 
+      clearError: () => set({ error: null }),
+
       login: async (username, password) => {
+        set({ error: null });
         try {
           set({ error: null }); // limpa erros anteriores
 

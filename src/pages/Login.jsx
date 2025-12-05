@@ -57,7 +57,7 @@ function Login() {
               </p>
             )}
 
-            <Button className="w-full mt-2" type="submit">
+            <Button className="w-full mt-2 cursor-pointer" type="submit">
               Entrar
             </Button>
           </form>

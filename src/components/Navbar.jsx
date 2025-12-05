@@ -102,12 +102,16 @@ export default function Navbar() {
         {/* CTA Button */}
         <div className="hidden md:block">
           {isAuthenticated ? (
-            <Button variant="destructive" onClick={logout}>
+            <Button
+              className="cursor-pointer"
+              variant="destructive"
+              onClick={logout}
+            >
               Logout
             </Button>
           ) : (
             <NavLink to="/login">
-              <Button>Entrar</Button>
+              <Button className="cursor-pointer">Entrar</Button>
             </NavLink>
           )}
         </div>
@@ -174,7 +178,7 @@ export default function Navbar() {
                 {/* LOGIN */}
                 {isAuthenticated ? (
                   <Button
-                    className="mt-4 w-full"
+                    className="mt-4 w-full cursor-pointer"
                     variant="destructive"
                     onClick={logout}
                   >
@@ -182,7 +186,9 @@ export default function Navbar() {
                   </Button>
                 ) : (
                   <NavLink to="/login">
-                    <Button className="mt-4 w-full">Entrar</Button>
+                    <Button className="mt-4 w-full cursor-pointer">
+                      Entrar
+                    </Button>
                   </NavLink>
                 )}
               </div>
