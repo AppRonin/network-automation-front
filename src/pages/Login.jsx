@@ -9,37 +9,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import api from "../services/api"; // axios client
+import { useAuth } from "../store/useAuth";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const login = useAuth((s) => s.login);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError("");
-
-    try {
-      const response = await api.post("/token/", {
-        username,
-        password,
-      });
-
-      // JWT tokens returned by DRF SimpleJWT
-      const { access, refresh } = response.data;
-
-      localStorage.setItem("access", access);
-      localStorage.setItem("refresh", refresh);
-
-      console.log("Logged in!");
-
-      // redirect / update UI
-      window.location.href = "/";
-    } catch (err) {
-      console.log(err);
-      setError("Email ou senha incorretos");
-    }
+    login(username, password); // Zustand handles redirect
   };
 
   return (
@@ -53,8 +32,6 @@ function Login() {
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && <p className="text-red-500 text-center">{error}</p>}
-
             <div className="flex flex-col space-y-1.5">
               <Label>Username</Label>
               <Input
