@@ -25,7 +25,6 @@ class Navdrop extends StatelessWidget {
         onTap: () => showPopover(
           context: context,
           width: 320,
-          height: 198,
           barrierColor: Colors.transparent,
           arrowHeight: 0,
           arrowWidth: 0,
@@ -33,6 +32,7 @@ class Navdrop extends StatelessWidget {
           bodyBuilder: (context) => Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 NavDroplink(
                   name: 'Conversor Gpon',
