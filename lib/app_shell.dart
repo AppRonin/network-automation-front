@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:network_automation/widgets/login_button.dart';
 import 'package:network_automation/widgets/navbar.dart';
+import 'package:network_automation/widgets/navlink.dart';
 
 class AppShell extends StatelessWidget {
   final Widget child;
+
   const AppShell({super.key, required this.child});
 
   @override
@@ -16,32 +20,94 @@ class AppShell extends StatelessWidget {
     if (location.contains('/login')) activeIndex = 4;
     if (location.contains('/conversor')) activeIndex = 20;
 
+    void handleSelection(index) {
+      switch (index) {
+        case 1:
+          context.go('/home');
+          break;
+        case 2:
+          context.go('/auto');
+          break;
+        case 3:
+          context.go('/sobre');
+          break;
+        case 4:
+          context.go('/login');
+          break;
+        case 20:
+          context.go('/conversor');
+          break;
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: Center(
+                child: Text(
+                  "IPS",
+                  style: GoogleFonts.inter(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+
+            Navlink(
+              name: "Home",
+              index: 1,
+              activeIndex: activeIndex,
+              onSelection: handleSelection,
+            ),
+
+            ExpansionTile(
+              title: Text(
+                "Automações",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.inter(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              showTrailingIcon: false,
+              children: [
+                ListTile(
+                  title: Text("Conversor Gpon", style: GoogleFonts.inter()),
+                  onTap: () {
+                    Navigator.pop(context); // close drawer
+                    context.go('/conversor');
+                  },
+                ),
+              ],
+            ),
+
+            Navlink(
+              name: "Sobre",
+              index: 3,
+              activeIndex: activeIndex,
+              onSelection: handleSelection,
+            ),
+
+            const Spacer(), // 👈 pushes content below to the bottom
+
+            LoginButton(
+              index: 4,
+              activeIndex: activeIndex,
+              onSelection: handleSelection,
+            ),
+
+            const SizedBox(height: 24), // optional bottom padding
+          ],
+        ),
+      ),
       body: Column(
         children: [
-          Navbar(
-            activeIndex: activeIndex,
-            onSelection: (index) {
-              switch (index) {
-                case 1:
-                  context.go('/home');
-                  break;
-                case 2:
-                  context.go('/auto');
-                  break;
-                case 3:
-                  context.go('/sobre');
-                  break;
-                case 4:
-                  context.go('/login');
-                  break;
-                case 20:
-                  context.go('/conversor');
-                  break;
-              }
-            },
-          ),
+          Navbar(activeIndex: activeIndex, onSelection: handleSelection),
           Expanded(child: child),
         ],
       ),

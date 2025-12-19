@@ -16,6 +16,33 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 600) {
+          return MobileNavbar();
+        }
+
+        return DesktopNavbar(
+          activeIndex: activeIndex,
+          onSelection: onSelection,
+        );
+      },
+    );
+  }
+}
+
+class DesktopNavbar extends StatelessWidget {
+  final int activeIndex;
+  final void Function(int) onSelection;
+
+  const DesktopNavbar({
+    super.key,
+    required this.activeIndex,
+    required this.onSelection,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 64, vertical: 21),
       decoration: BoxDecoration(
@@ -58,6 +85,34 @@ class Navbar extends StatelessWidget {
             index: 4,
             activeIndex: activeIndex,
             onSelection: onSelection,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MobileNavbar extends StatelessWidget {
+  const MobileNavbar({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24, vertical: 21),
+      decoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "IPS",
+            style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w700),
+          ),
+
+          IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: Icon(Icons.menu),
           ),
         ],
       ),

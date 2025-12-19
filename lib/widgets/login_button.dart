@@ -15,8 +15,13 @@ class LoginButton extends StatelessWidget {
     required this.onSelection,
   });
 
+  bool isMobile(BuildContext context) =>
+      MediaQuery.of(context).size.width < 600;
+
   @override
   Widget build(BuildContext context) {
+    final mobile = isMobile(context);
+
     return FutureBuilder<bool>(
       future: AuthService.isLoggedIn(),
       builder: (context, snapshot) {
@@ -36,6 +41,10 @@ class LoginButton extends StatelessWidget {
               }
             },
             child: Container(
+              width: !mobile ? null : double.infinity,
+              margin: !mobile
+                  ? EdgeInsets.symmetric(horizontal: 0)
+                  : EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 color: loggedIn ? Colors.red : Colors.black,
                 borderRadius: BorderRadius.circular(8),
@@ -43,9 +52,10 @@ class LoginButton extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               child: Text(
                 loggedIn ? "Sair" : "Entrar",
+                textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: !mobile ? 14 : 16,
                   fontWeight: FontWeight.w600,
                 ),
               ),
