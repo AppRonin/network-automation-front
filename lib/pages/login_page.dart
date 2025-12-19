@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 64),
+        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 64),
         child: Container(
           width: 400,
           height: 340,

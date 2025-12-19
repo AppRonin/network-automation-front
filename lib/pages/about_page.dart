@@ -8,114 +8,116 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 64),
-        child: SizedBox(
-          width: 600,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Sobre',
-                style: GoogleFonts.inter(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 64),
+          child: SizedBox(
+            width: 600,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Sobre',
+                  style: GoogleFonts.inter(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              SizedBox(height: 16),
-              Text(
-                "Esta aplicação foi criada para facilitar o trabalho do time de suporte de rede.",
-                style: GoogleFonts.inter(fontSize: 14),
-              ),
-              SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      offset: Offset(0, 4),
-                      blurRadius: 6,
-                      spreadRadius: 0,
-                    ),
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
-                      offset: Offset(0, 2),
-                      blurRadius: 4,
-                      spreadRadius: 0,
-                    ),
-                  ],
+                SizedBox(height: 16),
+                Text(
+                  "Esta aplicação foi criada para facilitar o trabalho do time de suporte de rede.",
+                  style: GoogleFonts.inter(fontSize: 14),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "O que ela faz?",
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        offset: Offset(0, 4),
+                        blurRadius: 6,
+                        spreadRadius: 0,
                       ),
-                    ),
-                    SizedBox(height: 24),
-                    Bullet(
-                      text: "Automatiza atividades repetitivas do suporte.",
-                    ),
-                    Bullet(text: "Facilita diagnósticos e conferencias."),
-                    Bullet(text: "Padroniza processos para evitar erros."),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.grey.shade300),
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      offset: Offset(0, 4),
-                      blurRadius: 6,
-                      spreadRadius: 0,
-                    ),
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
-                      offset: Offset(0, 2),
-                      blurRadius: 4,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Principais benefícios",
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.06),
+                        offset: Offset(0, 2),
+                        blurRadius: 4,
+                        spreadRadius: 0,
                       ),
-                    ),
-                    SizedBox(height: 24),
-                    Bullet(text: "Mais rapidez."),
-                    Bullet(text: "Menos erros."),
-                    Bullet(text: "Maior produtividade."),
-                  ],
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "O que ela faz?",
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      Bullet(
+                        text: "Automatiza tarefas repetitivas do suporte.",
+                      ),
+                      Bullet(text: "Facilita diagnósticos e conferencias."),
+                      Bullet(text: "Padroniza processos para evitar erros."),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 16),
-              Text(
-                "@ 2025 • AppRonin",
-                style: GoogleFonts.inter(fontSize: 14, color: Colors.grey),
-              ),
-            ],
+                SizedBox(height: 16),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        offset: Offset(0, 4),
+                        blurRadius: 6,
+                        spreadRadius: 0,
+                      ),
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.06),
+                        offset: Offset(0, 2),
+                        blurRadius: 4,
+                        spreadRadius: 0,
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Principais benefícios",
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 24),
+                      Bullet(text: "Mais rapidez."),
+                      Bullet(text: "Menos erros."),
+                      Bullet(text: "Maior produtividade."),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  "@ 2025 • AppRonin",
+                  style: GoogleFonts.inter(fontSize: 14, color: Colors.grey),
+                ),
+              ],
+            ),
           ),
         ),
       ),

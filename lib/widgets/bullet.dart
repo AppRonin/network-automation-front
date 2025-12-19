@@ -12,7 +12,7 @@ class Bullet extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const Text('• ', style: TextStyle(fontSize: 24)),
-        Text(text, style: GoogleFonts.inter(fontSize: 14)),
+        Expanded(child: Text(text, style: GoogleFonts.inter(fontSize: 14))),
       ],
     );
   }

@@ -36,7 +36,7 @@ class _GponConversorPageState extends State<GponConversorPage> {
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 64),
+        padding: const EdgeInsets.only(left: 24, right: 24, bottom: 64),
         child: Container(
           width: 500,
           height: 325,
