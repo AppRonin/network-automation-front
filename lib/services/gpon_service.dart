@@ -3,11 +3,11 @@ import 'package:file_picker/file_picker.dart';
 import 'auth_service.dart';
 
 class GponService {
-  static Future<http.StreamedResponse> convert({
+  static Future<http.StreamedResponse> startTask({
     required PlatformFile file,
     required String port,
   }) async {
-    final uri = Uri.parse('${AuthService.baseUrl}/gpon-conversor/');
+    final uri = Uri.parse('http://localhost:8000/api/v1/gpon-conversor/');
 
     final request = http.MultipartRequest('POST', uri);
 

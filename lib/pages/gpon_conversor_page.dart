@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:network_automation/services/gpon_service.dart';
@@ -7,6 +6,7 @@ import 'package:network_automation/widgets/custom_input.dart';
 import 'package:network_automation/widgets/custom_input_file.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:network_automation/widgets/progress_bar.dart';
+import 'package:http/http.dart' as http;
 
 class GponConversorPage extends StatefulWidget {
   const GponConversorPage({super.key});
@@ -20,6 +20,10 @@ class _GponConversorPageState extends State<GponConversorPage> {
   PlatformFile? file;
   String? error;
 
+  Map<String, dynamic> result = {};
+  double progress = 0;
+  bool isLoading = false;
+
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -30,9 +34,76 @@ class _GponConversorPageState extends State<GponConversorPage> {
     }
   }
 
+  void handleLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
+
+  Future<Map<String, dynamic>> getProgress(String taskID) async {
+    final url = Uri.parse('http://localhost:8000/api/v1/progress/$taskID');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load progress');
+    }
+  }
+
+  void updateProgress(String taskID) async {
+    int attempts = 0;
+    const maxAttempts = 10;
+
+    while (progress < 100 && attempts < maxAttempts) {
+      try {
+        var taskProgress = await getProgress(taskID);
+        setState(() {
+          progress = double.parse(taskProgress["progress"].toString());
+        });
+      } catch (e) {
+        debugPrint("Error getting progress: $e");
+        break;
+      }
+
+      attempts++;
+      await Future.delayed(const Duration(seconds: 1));
+    }
+  }
+
+  void resetProgress() {
+    setState(() {
+      progress = 0;
+    });
+  }
+
+  void updateResult(String taskID) async {
+    int attempts = 0;
+    const maxAttempts = 10;
+
+    while (progress < 100 && attempts < maxAttempts) {
+      handleLoading(true);
+      await Future.delayed(const Duration(seconds: 1));
+      attempts++;
+    }
+
+    try {
+      var taskResult = await getProgress(taskID);
+      setState(() {
+        result = taskResult["result"] ?? {};
+      });
+    } catch (e) {
+      debugPrint('Failed to get result: $e');
+    } finally {
+      handleLoading(false);
+    }
+  }
+
+  void runTask() {}
+
   @override
   Widget build(BuildContext context) {
-    final bool isDisabled = file == null;
+    final bool isDisabled = file == null || isLoading;
 
     return Center(
       child: Padding(
@@ -103,23 +174,32 @@ class _GponConversorPageState extends State<GponConversorPage> {
                       onTap: isDisabled
                           ? null
                           : () async {
-                              final response = await GponService.convert(
-                                file: file!,
-                                port: portController.text.trim(),
-                              );
+                              try {
+                                resetProgress();
 
-                              final bodyString = await response.stream
-                                  .bytesToString();
-                              final data = jsonDecode(bodyString);
+                                final response = await GponService.startTask(
+                                  file: file!,
+                                  port: portController.text.trim(),
+                                );
 
-                              if (response.statusCode == 200) {
-                                setState(() {
-                                  error = null;
-                                });
-                              } else {
-                                setState(() {
-                                  error = data['error'];
-                                });
+                                final bodyString = await response.stream
+                                    .bytesToString();
+                                final data = jsonDecode(bodyString);
+
+                                if (response.statusCode == 200) {
+                                  final taskID = data["task_id"];
+                                  updateProgress(taskID);
+                                  updateResult(taskID);
+                                  setState(() {
+                                    error = null;
+                                  });
+                                } else {
+                                  setState(() {
+                                    error = data['error'];
+                                  });
+                                }
+                              } catch (e) {
+                                debugPrint(e.toString());
                               }
                             },
                       child: Opacity(
@@ -154,7 +234,7 @@ class _GponConversorPageState extends State<GponConversorPage> {
 
               SizedBox(height: 24),
 
-              SimpleProgressBar(progress: 0.65),
+              SimpleProgressBar(progress: progress),
             ],
           ),
         ),
