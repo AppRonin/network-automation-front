@@ -36,12 +36,6 @@ class _GponConversorPageState extends State<GponConversorPage> {
     }
   }
 
-  void handleLoading(bool value) {
-    setState(() {
-      isLoading = value;
-    });
-  }
-
   Future<Map<String, dynamic>> getProgress(String taskID) async {
     final url = Uri.parse('http://localhost:8000/api/v1/progress/$taskID');
     final response = await http.get(url);
@@ -53,7 +47,7 @@ class _GponConversorPageState extends State<GponConversorPage> {
     }
   }
 
-  void updateProgress(String taskID) async {
+  Future<Map<String, dynamic>> runTask(String taskID) async {
     int attempts = 0;
     const maxAttempts = 10;
 
@@ -63,42 +57,20 @@ class _GponConversorPageState extends State<GponConversorPage> {
         setState(() {
           progress = double.parse(taskProgress["progress"].toString());
         });
+
+        if (taskProgress["result"] != null) {
+          result = taskProgress["result"];
+          break;
+        }
       } catch (e) {
-        debugPrint("Error getting progress: $e");
-        break;
+        debugPrint("Error: $e");
       }
 
       attempts++;
       await Future.delayed(const Duration(seconds: 1));
     }
-  }
 
-  void resetProgress() {
-    setState(() {
-      progress = 0;
-    });
-  }
-
-  void updateResult(String taskID) async {
-    int attempts = 0;
-    const maxAttempts = 10;
-
-    while (progress < 100 && attempts < maxAttempts) {
-      handleLoading(true);
-      await Future.delayed(const Duration(seconds: 1));
-      attempts++;
-    }
-
-    try {
-      var taskResult = await getProgress(taskID);
-      setState(() {
-        result = taskResult["result"] ?? {};
-      });
-    } catch (e) {
-      debugPrint('Failed to get result: $e');
-    } finally {
-      handleLoading(false);
-    }
+    return result;
   }
 
   Future<void> exportTxtWithFileSaver({
@@ -114,8 +86,6 @@ class _GponConversorPageState extends State<GponConversorPage> {
       mimeType: MimeType.text,
     );
   }
-
-  void runTask() {}
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +161,11 @@ class _GponConversorPageState extends State<GponConversorPage> {
                           ? null
                           : () async {
                               try {
-                                resetProgress();
+                                setState(() {
+                                  isLoading = true;
+                                  error = null;
+                                  progress = 0;
+                                });
 
                                 final response = await GponService.startTask(
                                   file: file!,
@@ -204,18 +178,14 @@ class _GponConversorPageState extends State<GponConversorPage> {
 
                                 if (response.statusCode == 200) {
                                   final taskID = data["task_id"];
-                                  updateProgress(taskID);
-                                  updateResult(taskID);
+                                  result = await runTask(taskID);
+
                                   if (result.isNotEmpty) {
                                     await exportTxtWithFileSaver(
                                       filename: "resultado",
                                       content: result["template"],
                                     );
                                   }
-
-                                  setState(() {
-                                    error = null;
-                                  });
                                 } else {
                                   setState(() {
                                     error = data['error'];
@@ -223,6 +193,10 @@ class _GponConversorPageState extends State<GponConversorPage> {
                                 }
                               } catch (e) {
                                 debugPrint(e.toString());
+                              } finally {
+                                setState(() {
+                                  isLoading = false;
+                                });
                               }
                             },
                       child: Opacity(
