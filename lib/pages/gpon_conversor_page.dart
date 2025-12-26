@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:typed_data';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:network_automation/services/gpon_service.dart';
@@ -99,6 +101,20 @@ class _GponConversorPageState extends State<GponConversorPage> {
     }
   }
 
+  Future<void> exportTxtWithFileSaver({
+    required String content,
+    String filename = 'export',
+  }) async {
+    final bytes = Uint8List.fromList(content.codeUnits);
+
+    await FileSaver.instance.saveFile(
+      name: filename,
+      bytes: bytes,
+      fileExtension: 'txt',
+      mimeType: MimeType.text,
+    );
+  }
+
   void runTask() {}
 
   @override
@@ -190,6 +206,13 @@ class _GponConversorPageState extends State<GponConversorPage> {
                                   final taskID = data["task_id"];
                                   updateProgress(taskID);
                                   updateResult(taskID);
+                                  if (result.isNotEmpty) {
+                                    await exportTxtWithFileSaver(
+                                      filename: "resultado",
+                                      content: result["template"],
+                                    );
+                                  }
+
                                   setState(() {
                                     error = null;
                                   });
