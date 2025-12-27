@@ -46,65 +46,74 @@ class AppShell extends StatelessWidget {
         backgroundColor: Colors.white,
         child: Column(
           children: [
-            DrawerHeader(
-              child: Center(
-                child: Text(
-                  "IPS",
-                  style: GoogleFonts.inter(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
+            // 🔹 SCROLLABLE AREA
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  DrawerHeader(
+                    child: Center(
+                      child: Text(
+                        "IPS",
+                        style: GoogleFonts.inter(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+
+                  Navlink(
+                    name: "Home",
+                    index: 1,
+                    activeIndex: activeIndex,
+                    onSelection: handleSelection,
+                  ),
+
+                  ExpansionTile(
+                    title: Text(
+                      "Automações",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.inter(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    showTrailingIcon: false,
+                    children: [
+                      ListTile(
+                        title: Text("Conversor Gpon"),
+                        onTap: () {
+                          Navigator.pop(context);
+                          context.go('/conversor');
+                        },
+                      ),
+                    ],
+                  ),
+
+                  Navlink(
+                    name: "Sobre",
+                    index: 3,
+                    activeIndex: activeIndex,
+                    onSelection: handleSelection,
+                  ),
+                ],
               ),
             ),
 
-            Navlink(
-              name: "Home",
-              index: 1,
-              activeIndex: activeIndex,
-              onSelection: handleSelection,
-            ),
-
-            ExpansionTile(
-              title: Text(
-                "Automações",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+            // 🔹 FIXED BOTTOM AREA
+            Padding(
+              padding: const EdgeInsets.only(bottom: 24),
+              child: LoginButton(
+                index: 4,
+                activeIndex: activeIndex,
+                onSelection: handleSelection,
               ),
-              showTrailingIcon: false,
-              children: [
-                ListTile(
-                  title: Text("Conversor Gpon", style: GoogleFonts.inter()),
-                  onTap: () {
-                    Navigator.pop(context); // close drawer
-                    context.go('/conversor');
-                  },
-                ),
-              ],
             ),
-
-            Navlink(
-              name: "Sobre",
-              index: 3,
-              activeIndex: activeIndex,
-              onSelection: handleSelection,
-            ),
-
-            const Spacer(), // 👈 pushes content below to the bottom
-
-            LoginButton(
-              index: 4,
-              activeIndex: activeIndex,
-              onSelection: handleSelection,
-            ),
-
-            const SizedBox(height: 24), // optional bottom padding
           ],
         ),
       ),
+
       body: Column(
         children: [
           Navbar(activeIndex: activeIndex, onSelection: handleSelection),
