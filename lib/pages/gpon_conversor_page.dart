@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:network_automation/services/gpon_service.dart';
+import 'package:network_automation/services/auth_service.dart';
 import 'package:network_automation/widgets/custom_input.dart';
 import 'package:network_automation/widgets/custom_input_file.dart';
 import 'package:file_picker/file_picker.dart';
@@ -18,13 +18,15 @@ class GponConversorPage extends StatefulWidget {
 }
 
 class _GponConversorPageState extends State<GponConversorPage> {
-  final portController = TextEditingController();
-  PlatformFile? file;
-  String? error;
+  final baseUrl = 'http://localhost:8000/api/v1';
 
-  Map<String, dynamic> result = {};
-  double progress = 0;
+  PlatformFile? file;
+  final portController = TextEditingController();
+
   bool isLoading = false;
+  double progress = 0;
+  Map<String, dynamic> result = {};
+  String? error;
 
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -36,8 +38,57 @@ class _GponConversorPageState extends State<GponConversorPage> {
     }
   }
 
+  void resetAll() {
+    setState(() {
+      isLoading = true;
+      error = null;
+      progress = 0;
+    });
+  }
+
+  void handleError(String? value) {
+    setState(() {
+      error = value;
+    });
+  }
+
+  void handleLoading(bool value) {
+    setState(() {
+      isLoading = value;
+    });
+  }
+
+  Future<Map<String, dynamic>> startTask({
+    required PlatformFile file,
+    required String port,
+  }) async {
+    final uri = Uri.parse('$baseUrl/gpon-conversor/');
+
+    final request = http.MultipartRequest('POST', uri);
+
+    final headers = await AuthService.authHeaders();
+    request.headers.addAll(headers);
+
+    request.fields['port'] = port;
+
+    request.files.add(
+      http.MultipartFile.fromBytes('file', file.bytes!, filename: file.name),
+    );
+
+    final response = await request.send();
+
+    final bodyString = await response.stream.bytesToString();
+    final data = jsonDecode(bodyString);
+
+    if (response.statusCode != 200) {
+      return {"error": data["error"]};
+    }
+
+    return {"task_id": data["task_id"]};
+  }
+
   Future<Map<String, dynamic>> getProgress(String taskID) async {
-    final url = Uri.parse('http://localhost:8000/api/v1/progress/$taskID');
+    final url = Uri.parse('$baseUrl/progress/$taskID');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -47,7 +98,7 @@ class _GponConversorPageState extends State<GponConversorPage> {
     }
   }
 
-  Future<Map<String, dynamic>> runTask(String taskID) async {
+  Future<Map<String, dynamic>> getResult(String taskID) async {
     int attempts = 0;
     const maxAttempts = 10;
 
@@ -161,42 +212,29 @@ class _GponConversorPageState extends State<GponConversorPage> {
                           ? null
                           : () async {
                               try {
-                                setState(() {
-                                  isLoading = true;
-                                  error = null;
-                                  progress = 0;
-                                });
+                                resetAll();
 
-                                final response = await GponService.startTask(
+                                final task = await startTask(
                                   file: file!,
                                   port: portController.text.trim(),
                                 );
 
-                                final bodyString = await response.stream
-                                    .bytesToString();
-                                final data = jsonDecode(bodyString);
+                                if (task["error"] != null) {
+                                  handleError(task["error"]);
+                                }
 
-                                if (response.statusCode == 200) {
-                                  final taskID = data["task_id"];
-                                  result = await runTask(taskID);
+                                result = await getResult(task["task_id"]);
 
-                                  if (result.isNotEmpty) {
-                                    await exportTxtWithFileSaver(
-                                      filename: "resultado",
-                                      content: result["template"],
-                                    );
-                                  }
-                                } else {
-                                  setState(() {
-                                    error = data['error'];
-                                  });
+                                if (result.isNotEmpty) {
+                                  await exportTxtWithFileSaver(
+                                    filename: "resultado",
+                                    content: result["template"],
+                                  );
                                 }
                               } catch (e) {
                                 debugPrint(e.toString());
                               } finally {
-                                setState(() {
-                                  isLoading = false;
-                                });
+                                handleLoading(false);
                               }
                             },
                       child: Opacity(
