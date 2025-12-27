@@ -117,7 +117,22 @@ class AppShell extends StatelessWidget {
       body: Column(
         children: [
           Navbar(activeIndex: activeIndex, onSelection: handleSelection),
-          Expanded(child: child),
+          Expanded(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return ListView(
+                  children: [
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: constraints.maxHeight,
+                      ),
+                      child: child,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
