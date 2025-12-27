@@ -148,7 +148,7 @@ class _GponConversorPageState extends State<GponConversorPage> {
         child: Container(
           width: 500,
           height: 325,
-          padding: EdgeInsets.only(left: 24, right: 24, top: 24),
+          padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: Colors.grey.shade300),
@@ -158,13 +158,13 @@ class _GponConversorPageState extends State<GponConversorPage> {
                 color: Colors.black.withOpacity(
                   0.1,
                 ), // Shadow color with opacity
-                offset: Offset(0, 4), // X, Y offset
+                offset: const Offset(0, 4), // X, Y offset
                 blurRadius: 6, // Blur radius
                 spreadRadius: 0, // Spread radius
               ),
               BoxShadow(
                 color: Colors.black.withOpacity(0.06),
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
                 blurRadius: 4,
                 spreadRadius: 0,
               ),
@@ -180,14 +180,14 @@ class _GponConversorPageState extends State<GponConversorPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               CustomInputFile(
                 label: "Arquivo:",
                 placeholder: "Escolha um arquivo.txt",
                 file: file,
                 onPickFile: pickFile,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -200,7 +200,7 @@ class _GponConversorPageState extends State<GponConversorPage> {
                       controller: portController,
                     ),
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
 
                   // Submit Button
                   MouseRegion(
@@ -267,7 +267,7 @@ class _GponConversorPageState extends State<GponConversorPage> {
                 style: GoogleFonts.inter(fontSize: 14, color: Colors.red),
               ),
 
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
 
               SimpleProgressBar(progress: progress),
             ],

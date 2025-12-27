@@ -43,8 +43,8 @@ class LoginButton extends StatelessWidget {
             child: Container(
               width: !mobile ? null : double.infinity,
               margin: !mobile
-                  ? EdgeInsets.symmetric(horizontal: 0)
-                  : EdgeInsets.symmetric(horizontal: 8),
+                  ? const EdgeInsets.symmetric(horizontal: 0)
+                  : const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 color: loggedIn ? Colors.red : Colors.black,
                 borderRadius: BorderRadius.circular(8),

@@ -23,15 +23,15 @@ class AboutPage extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 "Esta aplicação foi criada para facilitar o trabalho do time de suporte de rede.",
                 style: GoogleFonts.inter(fontSize: 14),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.grey.shade300),
@@ -39,13 +39,13 @@ class AboutPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                       blurRadius: 6,
                       spreadRadius: 0,
                     ),
                     BoxShadow(
                       color: Colors.black.withOpacity(0.06),
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                       blurRadius: 4,
                       spreadRadius: 0,
                     ),
@@ -61,17 +61,21 @@ class AboutPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 24),
-                    Bullet(text: "Automatiza tarefas repetitivas do suporte."),
-                    Bullet(text: "Facilita diagnósticos e conferencias."),
-                    Bullet(text: "Padroniza processos para evitar erros."),
+                    const SizedBox(height: 24),
+                    const Bullet(
+                      text: "Automatiza tarefas repetitivas do suporte.",
+                    ),
+                    const Bullet(text: "Facilita diagnósticos e conferencias."),
+                    const Bullet(
+                      text: "Padroniza processos para evitar erros.",
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(color: Colors.grey.shade300),
@@ -79,13 +83,13 @@ class AboutPage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                       blurRadius: 6,
                       spreadRadius: 0,
                     ),
                     BoxShadow(
                       color: Colors.black.withOpacity(0.06),
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                       blurRadius: 4,
                       spreadRadius: 0,
                     ),
@@ -101,14 +105,14 @@ class AboutPage extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 24),
-                    Bullet(text: "Mais rapidez."),
-                    Bullet(text: "Menos erros."),
-                    Bullet(text: "Maior produtividade."),
+                    const SizedBox(height: 24),
+                    const Bullet(text: "Mais rapidez."),
+                    const Bullet(text: "Menos erros."),
+                    const Bullet(text: "Maior produtividade."),
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 "@ 2025 • AppRonin",
                 style: GoogleFonts.inter(fontSize: 14, color: Colors.grey),

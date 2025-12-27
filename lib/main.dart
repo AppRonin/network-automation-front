@@ -47,27 +47,27 @@ class MyApp extends StatelessWidget {
             GoRoute(
               path: '/home',
               pageBuilder: (context, state) =>
-                  NoTransitionPage(child: HomePage()),
+                  const NoTransitionPage(child: HomePage()),
             ),
             GoRoute(
               path: '/auto',
               pageBuilder: (context, state) =>
-                  NoTransitionPage(child: HomePage()),
+                  const NoTransitionPage(child: HomePage()),
             ),
             GoRoute(
               path: '/sobre',
               pageBuilder: (context, state) =>
-                  NoTransitionPage(child: AboutPage()),
+                  const NoTransitionPage(child: AboutPage()),
             ),
             GoRoute(
               path: '/login',
               pageBuilder: (context, state) =>
-                  NoTransitionPage(child: LoginPage()),
+                  const NoTransitionPage(child: LoginPage()),
             ),
             GoRoute(
               path: '/conversor',
               pageBuilder: (context, state) =>
-                  NoTransitionPage(child: GponConversorPage()),
+                  const NoTransitionPage(child: GponConversorPage()),
             ),
           ],
         ),

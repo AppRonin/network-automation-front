@@ -82,7 +82,7 @@ class AppShell extends StatelessWidget {
                     showTrailingIcon: false,
                     children: [
                       ListTile(
-                        title: Text("Conversor Gpon"),
+                        title: const Text("Conversor Gpon"),
                         onTap: () {
                           Navigator.pop(context);
                           context.go('/conversor');

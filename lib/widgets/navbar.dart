@@ -19,7 +19,7 @@ class Navbar extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth < 600) {
-          return MobileNavbar();
+          return const MobileNavbar();
         }
 
         return DesktopNavbar(
@@ -46,7 +46,7 @@ class DesktopNavbar extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 80,
-      padding: EdgeInsets.symmetric(horizontal: 64),
+      padding: const EdgeInsets.symmetric(horizontal: 64),
       decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
       ),
@@ -109,7 +109,7 @@ class MobileNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 80,
-      padding: EdgeInsets.symmetric(horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
       ),
@@ -123,7 +123,7 @@ class MobileNavbar extends StatelessWidget {
 
           IconButton(
             onPressed: () => Scaffold.of(context).openDrawer(),
-            icon: Icon(Icons.menu),
+            icon: const Icon(Icons.menu),
           ),
         ],
       ),

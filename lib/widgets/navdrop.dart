@@ -51,7 +51,7 @@ class Navdrop extends StatelessWidget {
             color: (activeIndex >= 20) ? Colors.grey[100] : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -62,8 +62,8 @@ class Navdrop extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              SizedBox(width: 2),
-              Icon(Icons.keyboard_arrow_down_rounded, size: 18),
+              const SizedBox(width: 2),
+              const Icon(Icons.keyboard_arrow_down_rounded, size: 18),
             ],
           ),
         ),

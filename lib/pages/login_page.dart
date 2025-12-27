@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           width: 400,
           height: 340,
-          padding: EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(color: Colors.grey.shade300),
@@ -54,13 +54,13 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.black.withOpacity(
                   0.1,
                 ), // Shadow color with opacity
-                offset: Offset(0, 4), // X, Y offset
+                offset: const Offset(0, 4), // X, Y offset
                 blurRadius: 6, // Blur radius
                 spreadRadius: 0, // Spread radius
               ),
               BoxShadow(
                 color: Colors.black.withOpacity(0.06),
-                offset: Offset(0, 2),
+                offset: const Offset(0, 2),
                 blurRadius: 4,
                 spreadRadius: 0,
               ),
@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Center(
                 child: Text(
                   "Login",
@@ -79,14 +79,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               CustomInput(
                 label: "Usuario",
                 placeholder: "Digite seu usuário",
                 isPassword: false,
                 controller: userController,
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               CustomInput(
                 label: "Password",
                 placeholder: "*********",
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                 error ?? '',
                 style: GoogleFonts.inter(fontSize: 14, color: Colors.red),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
 
               // Login Button
               MouseRegion(

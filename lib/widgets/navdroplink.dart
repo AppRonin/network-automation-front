@@ -33,7 +33,7 @@ class NavDroplink extends StatelessWidget {
                 : Colors.transparent,
             borderRadius: BorderRadius.circular(8),
           ),
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               Column(
@@ -46,7 +46,7 @@ class NavDroplink extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     description,
                     style: GoogleFonts.inter(
